@@ -57,7 +57,16 @@ st.write("You selected:", option)
 
 # st.write("You selected:", options)
 
-unique_subcategory= df['Sub_Category'].unique()
+# unique_subcategory= df['Sub_Category'].unique()
+# options = st.multiselect(
+#     "Select Sub_Catogeries",unique_subcategory,
+# )
+
+# st.write("You selected:", options)
+
+# Select unique Sub_Category based on selected category
+unique_subcategory = df[df['Sub_Category'] == 'Furniture']
+
 options = st.multiselect(
     "Select Sub_Catogeries",unique_subcategory,
 )
