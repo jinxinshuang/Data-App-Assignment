@@ -38,9 +38,9 @@ st.write("### (5) use the delta option in the overall profit margin metric to sh
 
 ########################################
 
-option = st.selectbox(
-    "How would you like to be contacted?",
-    ("Email", "Home phone", "Mobile phone"),
-)
+# option = st.selectbox(
+#     "How would you like to be contacted?",
+#     ("Email", "Home phone", "Mobile phone"),
+# )
 
-st.write("You selected:", option)
+# st.write("You selected:", option)
