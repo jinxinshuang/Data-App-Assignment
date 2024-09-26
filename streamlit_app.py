@@ -38,11 +38,13 @@ st.write("### (5) use the delta option in the overall profit margin metric to sh
 
 ########################################
 unique_category= df['Category'].unique()
-option=st.selectbox("Select a Category",unique_category)
+option=st.selectbox("Select a Category", unique_category)
 
-option = st.selectbox(
-    "How would you like to be contacted?",
-    ("Email", "Home phone", "Mobile phone"),
-)
+st.write("You selected:", option)
+
+# option = st.selectbox(
+#     "How would you like to be contacted?",
+#     ("Email", "Home phone", "Mobile phone"),
+# )
 
 # st.write("You selected:", option)
