@@ -37,10 +37,12 @@ st.write("### (4) show three metrics (https://docs.streamlit.io/library/api-refe
 st.write("### (5) use the delta option in the overall profit margin metric to show the difference between the overall average profit margin (all products across all categories)")
 
 ########################################
+unique_category= df['Category'].unique()
+option=st.selectbox("Select a Category",unique_category)
 
-option = st.selectbox(
-    "How would you like to be contacted?",
-    ("Email", "Home phone", "Mobile phone"),
-)
+# option = st.selectbox(
+#     "How would you like to be contacted?",
+#     ("Email", "Home phone", "Mobile phone"),
+# )
 
-st.write("You selected:", option)
+# st.write("You selected:", option)
