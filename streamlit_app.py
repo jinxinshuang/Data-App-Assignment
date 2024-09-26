@@ -64,8 +64,9 @@ st.write("You selected:", option)
 
 # st.write("You selected:", options)
 
+# ########## Select unique Sub_Category based on selected category
+# selected_column = df.loc[df['Condition_Column'] == 'A', 'Target_Column']
 unique_subcategory=df.loc[df["Category"]==option, "Sub_Category"].unique()
-
 
 options = st.multiselect(
     "Select Sub_Catogeries",unique_subcategory,
