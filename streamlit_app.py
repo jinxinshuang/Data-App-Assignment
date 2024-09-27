@@ -59,9 +59,9 @@ unique_sub_categories_sorted=unique_sub_categories.groupby([unique_sub_categorie
 
 # Add a header
 st.subheader("Sub_Category Sales by Year")
-st.line_chart(unique_sub_categories_sorted,x="Order_Date",
-y="Sales", x_label="Order_Date", y_label="Sales",color="Sub_Category")
-
+monthly_sales = unique_sub_categories_sorted.groupby(pd.Grouper(key='Order_Date', freq='M'))
+st.line_chart(monthly_sales, x="Order_Date",
+y="Sales", color="Sub_Category")
 
 
 
