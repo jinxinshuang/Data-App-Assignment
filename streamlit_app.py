@@ -98,10 +98,10 @@ for i in range(len(options)):
     subcategory=subcategory_sales_profit["Sub_Category"][i]
     
     sales=subcategory_sales_profit["Sales"][i]
-    formatted_sale="{:.2f}%".format(sales)
+    formatted_sale="${:.2f}".format(sales)
     
     profit=subcategory_sales_profit["Profit"][i]
-    formatted_profit="{:.2f}%".format(profit)
+    formatted_profit="${:.2f}".format(profit)
     
     overall_profit_margin = profit / sales *100
     formatted_margin = "{:.2f}%".format(overall_profit_margin)
