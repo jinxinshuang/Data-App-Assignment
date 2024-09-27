@@ -96,13 +96,18 @@ subcategory_sales_profit= unique_sub_categories.groupby("Sub_Category", as_index
 
 for i in range(len(options)):
     subcategory=subcategory_sales_profit["Sub_Category"][i]
+    
     sales=subcategory_sales_profit["Sales"][i]
+    formatted_sale="{:.2f}%".format(sales)
+    
     profit=subcategory_sales_profit["Profit"][i]
+    formatted_profit="{:.2f}%".format(profit)
+    
     overall_profit_margin = profit / sales *100
     formatted_margin = "{:.2f}%".format(overall_profit_margin)
     
 
-    st.write(## subcategory)
+    st.subheader(subcategory)
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Total Sales", sales)
