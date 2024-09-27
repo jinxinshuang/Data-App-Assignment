@@ -112,5 +112,5 @@ for i in range(len(options)):
     col1, col2, col3 = st.columns(3)
     col1.metric("Total Sales", formatted_sale)
     col2.metric("Profit", formatted_profit)
-    col3.metric("Overall Profit Margin", formatted_margin, "4%")
+    col3.metric("Overall Profit Margin", formatted_margin)
 
