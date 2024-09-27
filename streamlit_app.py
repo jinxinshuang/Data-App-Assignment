@@ -60,6 +60,13 @@ unique_sub_categories_sorted=unique_sub_categories.groupby([unique_sub_categorie
 # Add a header
 st.subheader("Sub_Category Sales by Year")
 monthly_sales = unique_sub_categories_sorted.groupby([pd.Grouper(key='Order_Date', freq='M'), 'Sub_Category']).sum().reset_index()
+
+# Create a complete date range for the full span of your data
+all_months = pd.date_range(start=monthly_sales['Order_Date'].min(), end=monthly_sales['Order_Date'].max(), freq='M')
+
+# Reindex to include all months, filling missing values with 0
+monthly_sales = monthly_sales.reindex(all_months, level=0, fill_value=0)
+
 st.dataframe(monthly_sales)
 
 st.line_chart(monthly_sales, x="Order_Date",
