@@ -86,5 +86,5 @@ subcategory_sales_by_year["Order_Year"]=subcategory_sales_by_year['Order_Date'].
 subcategory_sales_by_year["Order_Year"]=subcategory_sales_by_year["Order_Year"].astype(str)
 sales_by_year= subcategory_sales_by_year.groupby(["Order_Year", "Sub_Category"], as_index=False)["Sales"].sum()
 st.line_chart(sales_by_year,x="Order_Year",
-y="Sales", color="Sub_Category")
+y="Sales", x_label="Year", y_label="Sales",color="Sub_Category")
 
