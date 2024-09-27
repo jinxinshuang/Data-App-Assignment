@@ -80,7 +80,7 @@ st.write("You selected:", options)
 unique_sub_categories = df.loc[df["Sub_Category"].isin(options),:]
 
 
-subcategory_sales_by_year = unique_sub_categories.filter(items=['Sales']).groupby(pd.Grouper(freq='YE')).sum()
+subcategory_sales_by_year = unique_sub_categories.filter(items=['Sales', "Sub_Category"]).groupby(pd.Grouper(freq='YE')).sum()
 st.dataframe(subcategory_sales_by_year)
 st.line_chart(subcategory_sales_by_year,
 y="Sales")
