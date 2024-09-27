@@ -40,39 +40,16 @@ st.write("### (5) use the delta option in the overall profit margin metric to sh
 unique_category= df['Category'].unique()
 option=st.selectbox("Select a Category", unique_category)
 
-st.write("You selected:", option)
 
-# option = st.selectbox(
-#     "How would you like to be contacted?",
-#     ("Email", "Home phone", "Mobile phone"),
-# )
 
-# st.write("You selected:", option)
-
-# options = st.multiselect(
-#     "What are your favorite colors",
-#     ["Green", "Yellow", "Red", "Blue"],
-#     ["Yellow", "Red"],
-# )
-
-# st.write("You selected:", options)
-
-# unique_subcategory= df['Sub_Category'].unique()
-# options = st.multiselect(
-#     "Select Sub_Catogeries",unique_subcategory,
-# )
-
-# st.write("You selected:", options)
-
-# ########## Select unique Sub_Category based on selected category
+########### Select unique Sub_Category based on selected category
 # selected_column = df.loc[df['Condition_Column'] == 'A', 'Target_Column']
+
 unique_subcategory=df.loc[df["Category"]==option, "Sub_Category"].unique().tolist()
 
 options = st.multiselect(
     "Select Sub_Catogeries",unique_subcategory,
 )
-
-st.write("You selected:", options)
 
 
 ####
@@ -80,15 +57,13 @@ st.write("You selected:", options)
 unique_sub_categories = df.loc[df["Sub_Category"].isin(options),:]
 unique_sub_categories_sorted=unique_sub_categories.groupby([unique_sub_categories.index, "Sub_Category"])["Sales"].sum().reset_index()
 
-subcategory_sales_by_year= unique_sub_categories_sorted
-
-subcategory_sales_by_year["Order_Year"]=subcategory_sales_by_year['Order_Date'].dt.year
-subcategory_sales_by_year["Order_Year"]=subcategory_sales_by_year["Order_Year"].astype(str)
-sales_by_year= subcategory_sales_by_year.groupby(["Order_Year", "Sub_Category"], as_index=False)["Sales"].sum()
 # Add a header
 st.subheader("Sub_Category Sales by Year")
-st.line_chart(sales_by_year,x="Order_Year",
-y="Sales", x_label="Year", y_label="Sales",color="Sub_Category")
+st.line_chart(unique_sub_categories_sorted,x="Order_Date",
+y="Sales", x_label="Order_Date", y_label="Sales",color="Sub_Category")
+
+
+
 
 ####
 
