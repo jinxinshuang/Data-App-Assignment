@@ -78,7 +78,9 @@ st.write("You selected:", options)
 ####
 
 unique_sub_categories = df.loc[df["Sub_Category"].isin(options),:]
-# Reset Index: Using .reset_index() converts the result back into a DataFrame instead of a Series.
-unique_sub_categories_sorted=unique_sub_categories.groupby([unique_sub_categories.index, "Sub_Category"])["Sales"].sum().reset_index()
-st.dataframe(unique_sub_categories_sorted)
-st.line_chart(unique_sub_categories_sorted,y="Sales")
+
+
+subcategory_sales_by_year = unique_sub_categories.filter(items=['Sales']).groupby(pd.Grouper(freq='YE')).sum()
+st.dataframe(subcategory_sales_by_year)
+st.line_chart(subcategory_sales_by_year,
+y="Sales")
