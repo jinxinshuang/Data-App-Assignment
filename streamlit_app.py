@@ -102,8 +102,8 @@ for i in range(len(options)):
     formatted_margin = "{:.2f}%".format(overall_profit_margin)
     
 
-    st.write(subcategory)
-    st.metric(label="Total Sales", value="70 °F", delta="1.2 °F")
+    st.write(## subcategory)
+
     col1, col2, col3 = st.columns(3)
     col1.metric("Total Sales", sales)
     col2.metric("Profit", profit)
