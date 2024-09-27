@@ -87,6 +87,7 @@ subcategory_sales_by_year["Order_Year"]=subcategory_sales_by_year['Order_Date'].
 # Convert "Order_Year" to string (so that are no extra ticks on x axis)
 subcategory_sales_by_year["Order_Year"]=subcategory_sales_by_year["Order_Year"].astype(str)
 sales_by_year= subcategory_sales_by_year.groupby(["Order_Year", "Sub_Category"], as_index=False)["Sales"].sum()
+st.dataframe(sales_by_year)
 st.line_chart(sales_by_year,x="Order_Year",
 y="Sales", color="Sub_Cateogyr")
 
