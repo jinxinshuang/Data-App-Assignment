@@ -105,7 +105,6 @@ overall_avg_profit_margin = df['Profit Margin'].mean()
 formatted_overall_avg_profit_margin="{:.2f}%".format(overall_avg_profit_margin)
 # print(formatted_overall_avg_profit_margin)
 
-delta= overall_profit_margin - overall_avg_profit_margin
 
 for i in range(len(options)):
     subcategory=subcategory_sales_profit["Sub_Category"][i]
