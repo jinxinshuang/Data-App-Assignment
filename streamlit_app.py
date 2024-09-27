@@ -119,11 +119,12 @@ for i in range(len(options)):
     formatted_margin = "{:.2f}%".format(overall_profit_margin)
     
     delta=overall_profit_margin-overall_avg_profit_margin
+    formatted_delta="{:.2f}%".format(delta)
     
     st.subheader(subcategory)
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Total Sales", formatted_sale)
     col2.metric("Profit", formatted_profit)
-    col3.metric("Overall Profit Margin", formatted_margin,delta)
+    col3.metric("Overall Profit Margin", formatted_margin,formatted_delta)
 
