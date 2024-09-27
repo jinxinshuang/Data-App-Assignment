@@ -85,6 +85,8 @@ subcategory_sales_by_year= unique_sub_categories_sorted
 subcategory_sales_by_year["Order_Year"]=subcategory_sales_by_year['Order_Date'].dt.year
 subcategory_sales_by_year["Order_Year"]=subcategory_sales_by_year["Order_Year"].astype(str)
 sales_by_year= subcategory_sales_by_year.groupby(["Order_Year", "Sub_Category"], as_index=False)["Sales"].sum()
+# Add a header
+st.header("Sub_Category Sales by Year")
 st.line_chart(sales_by_year,x="Order_Year",
 y="Sales", x_label="Year", y_label="Sales",color="Sub_Category")
 
