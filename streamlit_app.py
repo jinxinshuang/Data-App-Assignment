@@ -90,3 +90,22 @@ st.subheader("Sub_Category Sales by Year")
 st.line_chart(sales_by_year,x="Order_Year",
 y="Sales", x_label="Year", y_label="Sales",color="Sub_Category")
 
+####
+
+subcategory_sales_profit= unique_sub_categories.groupby("Sub_Category", as_index=False)[["Sales", "Profit"]].sum()
+
+for i in range(len(options)):
+    subcategory=subcategory_sales_profit["Sub_Category"][i]
+    sales=subcategory_sales_profit["Sales"][i]
+    profit=subcategory_sales_profit["Profit"][i]
+    overall_profit_margin = profit / sales *100
+    formatted_margin = "{:.2f}%".format(overall_profit_margin)
+    
+
+    st.write(subcategory)
+    st.metric(label="Total Sales", value="70 °F", delta="1.2 °F")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total Sales", sales)
+    col2.metric("Profit", profit)
+    col3.metric("Overall Profit Margin", formatted_margin, "4%")
+
