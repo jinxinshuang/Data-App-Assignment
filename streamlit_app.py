@@ -39,20 +39,27 @@ st.write("### (4) show three metrics (https://docs.streamlit.io/library/api-refe
 st.write("### (5) use the delta option in the overall profit margin metric to show the difference between the overall average profit margin (all products across all categories)")
 
 ########################################
-unique_category= df['Category'].unique()
-option=st.selectbox("Select a Category", unique_category)
+
+#################### (1) add a drop down for Category (https://docs.streamlit.io/library/api-reference/widgets/st.selectbox)''
+
+# Select unique category from dataframe
+unique_category= df['Category'].unique().tolist()
+option=st.selectbox("Select a Category",unique_category)
 
 
+#################### (2) add a multi-select for Sub_Category in the selected Category (1) (https://docs.streamlit.io/library/api-reference/widgets/st.multiselect)
 
-########### Select unique Sub_Category based on selected category
-# selected_column = df.loc[df['Condition_Column'] == 'A', 'Target_Column']
+
+#Select unique Sub_Category based on selected category
+#Example: selected_column = df.loc[df['Condition_Column'] == 'A', 'Target_Column']
 
 unique_subcategory=df.loc[df["Category"]==option, "Sub_Category"].unique().tolist()
 
 options = st.multiselect(
-    "Select Sub_Catogeries",unique_subcategory,
-)
+    "Select Sub_Catogeries",unique_subcategory)
 
+
+######
 
 ####
 
