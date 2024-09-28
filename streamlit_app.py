@@ -146,7 +146,6 @@ subcategory_sales_profit= unique_sub_categories.groupby("Sub_Category", as_index
 
 df["Profit"].sum()
 df["Sales"].sum()
-
 overall_avg_profit_margin= df["Profit"].sum() / df["Sales"].sum() * 100
 
 
@@ -162,7 +161,7 @@ for i in range(len(options)):
     overall_profit_margin = profit / sales *100
     formatted_margin = "{:.2f}%".format(overall_profit_margin)
     
-    delta=overall_avg_profit_margin - overall_profit_margin
+    delta = overall_profit_margin - overall_avg_profit_margin
     formatted_delta="{:.2f}%".format(delta)
     
     st.subheader(subcategory)
