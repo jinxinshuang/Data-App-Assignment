@@ -123,14 +123,13 @@ merged_df['Sales'] = merged_df['Sales'].fillna(0)
 # Add a column of Order_Month 
 #     Order_Date Sub_Category      Sales Order_Month
 # 0   2014-01-31       Phones   2315.400     2014-01
-merged_df['Order_Month'] = merged_df['Order_Date'].dt.to_period('M')
+merged_df['Order_Month'] = merged_df['Order_Date'].dt.to_period('M').astype(str)
 
 print(merged_df)
 
 st.dataframe(merged_df)
 st.line_chart(merged_df, x="Order_Month",
 y="Sales", color="Sub_Category")
-
 #############################
 
 bookcases=df.loc[df["Sub_Category"]=="Bookcases"].reset_index()
