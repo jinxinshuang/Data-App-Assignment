@@ -137,25 +137,17 @@ st.line_chart(merged_df,
               color="Sub_Category")
 #############################
 
-bookcases=df.loc[df["Sub_Category"]=="Bookcases"].reset_index()
 
-bookcases_new=bookcases.groupby(["Order_Date", "Sub_Category"])["Sales"].sum().reset_index()
-st.dataframe(bookcases_new)
 
 ####
 
 subcategory_sales_profit= unique_sub_categories.groupby("Sub_Category", as_index=False)[["Sales", "Profit"]].sum()
 
 
-# the overall average profit margin (all products across all categories):
-# profit/sale * 100
+df["Profit"].sum()
+df["Sales"].sum()
 
-df['Profit Margin'] = (df['Profit'] / df['Sales']) * 100
-# Calculate the Overall Average Profit Margin
-overall_avg_profit_margin = df['Profit Margin'].mean()
-
-formatted_overall_avg_profit_margin="{:.2f}%".format(overall_avg_profit_margin)
-# print(formatted_overall_avg_profit_margin)
+overall_avg_profit_margin= df["Profit"].sum() / df["Sales"].sum() * 100
 
 
 for i in range(len(options)):
@@ -170,7 +162,7 @@ for i in range(len(options)):
     overall_profit_margin = profit / sales *100
     formatted_margin = "{:.2f}%".format(overall_profit_margin)
     
-    delta=overall_profit_margin-overall_avg_profit_margin
+    delta=overall_avg_profit_margin - overall_profit_margin
     formatted_delta="{:.2f}%".format(delta)
     
     st.subheader(subcategory)
