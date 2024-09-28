@@ -5,7 +5,7 @@ import math
 
 import numpy as np
 
-st.title("Data App Assignment, on Oct 7th")
+st.title("Xinshuang Jin, Data App Assignment, on Oct 7th")
 
 st.write("### Input Data and Examples")
 df = pd.read_csv("Superstore_Sales_utf8.csv", parse_dates=True)
