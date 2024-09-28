@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math
 
+import numpy as np
+
 st.title("Data App Assignment, on Oct 7th")
 
 st.write("### Input Data and Examples")
@@ -61,15 +63,75 @@ unique_sub_categories_sorted=unique_sub_categories.groupby([unique_sub_categorie
 st.subheader("Sub_Category Sales by Year")
 monthly_sales = unique_sub_categories_sorted.groupby([pd.Grouper(key='Order_Date', freq='M'), 'Sub_Category']).sum().reset_index()
 
-
-
 st.dataframe(monthly_sales)
 
 st.line_chart(monthly_sales, x="Order_Date",
 y="Sales", color="Sub_Category")
 
 
-##
+#####################
+
+# 2017-12 will end on 2017-11, need to use 2017-12-31 to include all the dates 2017-12
+min=monthly_sales["Order_Date"].min()
+
+# print(min)
+# 2014-01-31 00:00:00
+
+max= monthly_sales["Order_Date"].max()
+
+# print(max)
+# 2017-12-31 00:00:00
+
+original_end_date = pd.to_datetime(max)
+# Add Last Day of Month: The pd.offsets.MonthEnd(0) is added to each date, effectively changing it to the last day of that month.
+last_Day_of_month= original_end_date + pd.offsets.MonthEnd(0)
+
+# print(last_Day_of_month)
+# 2017-12-31 00:00:00
+
+all_months = pd.date_range(start=min, end=last_Day_of_month, freq='M')
+# .to_period('M').astype(str)
+
+# Use numpy to repeat each element
+duplicated_months = np.repeat(all_months, len(options))
+
+# Print the result
+print(duplicated_months)
+
+# Create a new DataFrame with all months and the unique Sub_Category
+all_months_df = pd.DataFrame({
+    'Order_Date': duplicated_months,
+    'Sub_Category': options * len(all_months),
+})
+
+print(all_months_df)
+
+# Merge the original DataFrame with the complete month DataFrame
+# merged_df = df1.merge(df2, how='join_type', on='key_column')
+    # df1: The first DataFrame.
+    # df2: The second DataFrame.
+    # how: The type of merge to be performed:
+    # 'inner': Only include rows with keys present in both DataFrames (default).
+    # 'outer': Include rows from both DataFrames, filling in missing values with NaN.
+    # 'left': Include all rows from the left DataFrame and matching rows from the right DataFrame.
+    
+merged_df= all_months_df.merge(monthly_sales, on=['Order_Date', 'Sub_Category'], how='left')
+
+# # Fill missing sales with 0
+merged_df['Sales'] = merged_df['Sales'].fillna(0)
+
+# Add a column of Order_Month 
+#     Order_Date Sub_Category      Sales Order_Month
+# 0   2014-01-31       Phones   2315.400     2014-01
+merged_df['Order_Month'] = merged_df['Order_Date'].dt.to_period('M')
+
+print(merged_df)
+
+st.dataframe(merged_df)
+st.line_chart(merged_df, x="Order_Month",
+y="Sales", color="Sub_Category")
+
+#############################
 
 bookcases=df.loc[df["Sub_Category"]=="Bookcases"].reset_index()
 
@@ -115,75 +177,79 @@ for i in range(len(options)):
     col3.metric("Overall Profit Margin", formatted_margin,formatted_delta)
 
 
-######## Try bookcases
-bookcases=df.loc[df["Sub_Category"]=="Bookcases"].reset_index()
-
-bookcases.groupby(["Order_Date", "Sub_Category"])["Sales"].sum().reset_index()
-
-
-bookcases_new= bookcases.reset_index()
-
-bookcases_new['Order_Date']=pd.to_datetime(bookcases_new['Order_Date'], format='%m/%d/%Y')
-
-# unique["Order_Month"]=unique['Order_Date'].dt.month
-
-# Create a new column with the year and month (if you want both)
-bookcases_new['Order_Month'] = bookcases_new['Order_Date'].dt.to_period('M')
-
-
-# Convert "Order_Year" to string (so that are no extra ticks on x axis)
-bookcases_new["Order_Month"]=bookcases_new["Order_Month"].astype(str)
-
-# Reset Index: Using .reset_index() converts the result back into a DataFrame instead of a Series.
-book_cases_finished=bookcases_new.groupby(["Order_Month", "Sub_Category"])["Sales"].sum().reset_index()
-
-min= bookcases_new["Order_Date"].min()
-print(min)
-
-max= bookcases_new["Order_Date"].max()
-print(max)
-
-# Create a complete range of months for the year 2014 to 2017
-
-# 2017-12 will end on 2017-11, need to use 2017-12-31 to include all the dates 2017-12
-
-original_end_date = pd.to_datetime(max)
-# Add Last Day of Month: The pd.offsets.MonthEnd(0) is added to each date, effectively changing it to the last day of that month.
-last_Day_of_month= original_end_date + pd.offsets.MonthEnd(0)
-
-# Timestamp('2017-12-31 00:00:00')
-
-
-all_months = pd.date_range(start=min, end=last_Day_of_month, freq='M').to_period('M').astype(str)
+############ 
 
 
 
+# ######## Try bookcases, Succeed!
+# bookcases=df.loc[df["Sub_Category"]=="Bookcases"].reset_index()
 
-# Create a new DataFrame with all months and the unique Sub_Category
-all_months_df = pd.DataFrame({
-    'Order_Month': all_months,
-    'Sub_Category': ['Bookcases'] * len(all_months)
-})
+# bookcases.groupby(["Order_Date", "Sub_Category"])["Sales"].sum().reset_index()
 
 
-# book_cases_finished
+# bookcases_new= bookcases.reset_index()
 
-# Merge the original DataFrame with the complete month DataFrame
-# merged_df = df1.merge(df2, how='join_type', on='key_column')
-    # df1: The first DataFrame.
-    # df2: The second DataFrame.
-    # how: The type of merge to be performed:
-    # 'inner': Only include rows with keys present in both DataFrames (default).
-    # 'outer': Include rows from both DataFrames, filling in missing values with NaN.
-    # 'left': Include all rows from the left DataFrame and matching rows from the right DataFrame.
+# bookcases_new['Order_Date']=pd.to_datetime(bookcases_new['Order_Date'], format='%m/%d/%Y')
+
+# # unique["Order_Month"]=unique['Order_Date'].dt.month
+
+# # Create a new column with the year and month (if you want both)
+# bookcases_new['Order_Month'] = bookcases_new['Order_Date'].dt.to_period('M')
+
+
+# # Convert "Order_Year" to string (so that are no extra ticks on x axis)
+# bookcases_new["Order_Month"]=bookcases_new["Order_Month"].astype(str)
+
+# # Reset Index: Using .reset_index() converts the result back into a DataFrame instead of a Series.
+# book_cases_finished=bookcases_new.groupby(["Order_Month", "Sub_Category"])["Sales"].sum().reset_index()
+
+# min= bookcases_new["Order_Date"].min()
+# print(min)
+
+# max= bookcases_new["Order_Date"].max()
+# print(max)
+
+# # Create a complete range of months for the year 2014 to 2017
+
+# # 2017-12 will end on 2017-11, need to use 2017-12-31 to include all the dates 2017-12
+
+# original_end_date = pd.to_datetime(max)
+# # Add Last Day of Month: The pd.offsets.MonthEnd(0) is added to each date, effectively changing it to the last day of that month.
+# last_Day_of_month= original_end_date + pd.offsets.MonthEnd(0)
+
+# # Timestamp('2017-12-31 00:00:00')
+
+
+# all_months = pd.date_range(start=min, end=last_Day_of_month, freq='M').to_period('M').astype(str)
+
+
+
+
+# # Create a new DataFrame with all months and the unique Sub_Category
+# all_months_df = pd.DataFrame({
+#     'Order_Month': all_months,
+#     'Sub_Category': ['Bookcases'] * len(all_months)
+# })
+
+
+# # book_cases_finished
+
+# # Merge the original DataFrame with the complete month DataFrame
+# # merged_df = df1.merge(df2, how='join_type', on='key_column')
+#     # df1: The first DataFrame.
+#     # df2: The second DataFrame.
+#     # how: The type of merge to be performed:
+#     # 'inner': Only include rows with keys present in both DataFrames (default).
+#     # 'outer': Include rows from both DataFrames, filling in missing values with NaN.
+#     # 'left': Include all rows from the left DataFrame and matching rows from the right DataFrame.
     
-merged_df= all_months_df.merge(book_cases_finished, on=['Order_Month', 'Sub_Category'], how='left')
+# merged_df= all_months_df.merge(book_cases_finished, on=['Order_Month', 'Sub_Category'], how='left')
 
 
-# Fill missing sales with 0
-merged_df['Sales'] = merged_df['Sales'].fillna(0)
-st.dataframe(merged_df)
-st.line_chart(merged_df, x="Order_Month",
-y="Sales")
+# # Fill missing sales with 0
+# merged_df['Sales'] = merged_df['Sales'].fillna(0)
+# st.dataframe(merged_df)
+# st.line_chart(merged_df, x="Order_Month",
+# y="Sales")
 
 
