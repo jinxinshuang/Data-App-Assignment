@@ -59,15 +59,18 @@ options = st.multiselect(
     "Select Sub_Catogeries",unique_subcategory)
 
 
-######
+#################### (3) show a line chart of sales for the selected items in (2)
 
-####
-
+#Select rows from dataframe df where Sub_Category is from user's selections (options)
 unique_sub_categories = df.loc[df["Sub_Category"].isin(options),:]
+
+# Group by ["Order_Date"], ["Sub_Category"]
 unique_sub_categories_sorted=unique_sub_categories.groupby([unique_sub_categories.index, "Sub_Category"])["Sales"].sum().reset_index()
 
 # Add a header
-st.subheader("Sub_Category Sales by Year")
+st.subheader("Sub_Category Sales by Order_Year_Month")
+
+# Group the Order_Date by month (freq='M'), The order date will be the last day of each month
 monthly_sales = unique_sub_categories_sorted.groupby([pd.Grouper(key='Order_Date', freq='M'), 'Sub_Category']).sum().reset_index()
 
 st.dataframe(monthly_sales)
