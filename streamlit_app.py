@@ -73,69 +73,45 @@ st.subheader("Sub_Category Sales by Order_Year_Month")
 # Group the Order_Date by month (freq='M'), The order date will be the last day of each month
 monthly_sales = unique_sub_categories_sorted.groupby([pd.Grouper(key='Order_Date', freq='M'), 'Sub_Category']).sum().reset_index()
 
-st.dataframe(monthly_sales)
-
-st.line_chart(monthly_sales, x="Order_Date",
-y="Sales", color="Sub_Category")
 
 
-#####################
+##################### (3)  continued: 
+##################### some sub_category does NOT have sales in certain monnths)
+##################### replace missing values (some sub_category does NOT have sales in certain monnths) with 0
 
-# 2017-12 will end on 2017-11, need to use 2017-12-31 to include all the dates 2017-12
 min=monthly_sales["Order_Date"].min()
-
-# print(min)
-# 2014-01-31 00:00:00
-
 max= monthly_sales["Order_Date"].max()
 
-# print(max)
-# 2017-12-31 00:00:00
-
+# if max is 2017-12, the date_range will end on 2017-11, need to use 2017-12-31 to include all the dates 2017-12
 original_end_date = pd.to_datetime(max)
 # Add Last Day of Month: The pd.offsets.MonthEnd(0) is added to each date, effectively changing it to the last day of that month.
 last_Day_of_month= original_end_date + pd.offsets.MonthEnd(0)
 
-# print(last_Day_of_month)
-# 2017-12-31 00:00:00
-
+# Set a data_range with all month included 
 all_months = pd.date_range(start=min, end=last_Day_of_month, freq='M')
-# .to_period('M').astype(str)
 
 # Use numpy to repeat each element
+# each months is supposed to be repeated by number of options 
 duplicated_months = np.repeat(all_months, len(options))
 
-# Print the result
-print(duplicated_months)
 
-# Create a new DataFrame with all months and the unique Sub_Category
+# Create a new DataFrame with all months and selected Sub_Category from (options)
+# options * len(all_months): options repeat len(all_months) times
 all_months_df = pd.DataFrame({
     'Order_Date': duplicated_months,
     'Sub_Category': options * len(all_months),
 })
 
-print(all_months_df)
-
-# Merge the original DataFrame with the complete month DataFrame
+# Merge the original DataFrame "monthly_sales" with the complete month DataFrame "all_months_df"
 # merged_df = df1.merge(df2, how='join_type', on='key_column')
-    # df1: The first DataFrame.
-    # df2: The second DataFrame.
-    # how: The type of merge to be performed:
-    # 'inner': Only include rows with keys present in both DataFrames (default).
-    # 'outer': Include rows from both DataFrames, filling in missing values with NaN.
-    # 'left': Include all rows from the left DataFrame and matching rows from the right DataFrame.
     
 merged_df= all_months_df.merge(monthly_sales, on=['Order_Date', 'Sub_Category'], how='left')
 
-# # Fill missing sales with 0
+# Fill missing sales with 0
 merged_df['Sales'] = merged_df['Sales'].fillna(0)
 
 # Add a column of Order_Month 
-#     Order_Date Sub_Category      Sales Order_Month
-# 0   2014-01-31       Phones   2315.400     2014-01
 merged_df['Order_Month'] = merged_df['Order_Date'].dt.to_period('M').astype(str)
-
-print(merged_df)
 
 st.dataframe(merged_df)
 
