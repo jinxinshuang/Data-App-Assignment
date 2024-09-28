@@ -125,7 +125,7 @@ st.line_chart(merged_df,
 #####################  (4) show three metrics (https://docs.streamlit.io/library/api-reference/data/st.metric) for the selected items in (2): total sales, total profit, and overall profit margin (%)
 ##################### (5) use the delta option in the overall profit margin metric to show the difference between the overall average profit margin (all products across all categories)
 
-st.header("Metrics")
+st.header("Metrics (displayed with two decimal places)")
 
 subcategory_sales_profit= unique_sub_categories.groupby("Sub_Category", as_index=False)[["Sales", "Profit"]].sum()
 
@@ -156,10 +156,6 @@ for i in range(len(options)):
     col1.metric("Total Sales", formatted_sale)
     col2.metric("Profit", formatted_profit)
     col3.metric("Overall Profit Margin", formatted_margin, formatted_delta)
-
-    # col1.metric("Total Sales", sales)
-    # col2.metric("Profit", profit)
-    # col3.metric("Overall Profit Margin", overall_profit_margin, delta)
 
 
 
