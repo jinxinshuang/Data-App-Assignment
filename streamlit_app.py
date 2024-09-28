@@ -153,11 +153,9 @@ last_Day_of_month= original_end_date + pd.offsets.MonthEnd(0)
 
 # Timestamp('2017-12-31 00:00:00')
 
-print(last_Day_of_month)
 
 all_months = pd.date_range(start=min, end=last_Day_of_month, freq='M').to_period('M').astype(str)
 
-print(all_months)
 
 
 
@@ -167,7 +165,6 @@ all_months_df = pd.DataFrame({
     'Sub_Category': ['Bookcases'] * len(all_months)
 })
 
-print(all_months_df)
 
 # book_cases_finished
 
@@ -181,11 +178,11 @@ print(all_months_df)
     # 'left': Include all rows from the left DataFrame and matching rows from the right DataFrame.
     
 merged_df= all_months_df.merge(book_cases_finished, on=['Order_Month', 'Sub_Category'], how='left')
-print(merged_df)
+
 
 # Fill missing sales with 0
 merged_df['Sales'] = merged_df['Sales'].fillna(0)
-
+st.dataframe(merged_df)
 st.line_chart(merged_df, x="Order_Month",
 y="Sales")
 
