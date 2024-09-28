@@ -128,8 +128,13 @@ merged_df['Order_Month'] = merged_df['Order_Date'].dt.to_period('M').astype(str)
 print(merged_df)
 
 st.dataframe(merged_df)
-st.line_chart(merged_df, x="Order_Month",
-y="Sales", color="Sub_Category")
+
+st.line_chart(merged_df, 
+              x="Order_Month",
+              y="Sales", 
+              x_label="Order_by_Year_Month", 
+              y_label="Sales", 
+              color="Sub_Category")
 #############################
 
 bookcases=df.loc[df["Sub_Category"]=="Bookcases"].reset_index()
