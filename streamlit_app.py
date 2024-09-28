@@ -113,7 +113,6 @@ merged_df['Sales'] = merged_df['Sales'].fillna(0)
 # Add a column of Order_Month 
 merged_df['Order_Month'] = merged_df['Order_Date'].dt.to_period('M').astype(str)
 
-st.dataframe(merged_df)
 
 st.line_chart(merged_df, 
               x="Order_Month",
@@ -139,6 +138,7 @@ for i in range(len(options)):
     subcategory=subcategory_sales_profit["Sub_Category"][i]
     
     sales=subcategory_sales_profit["Sales"][i]
+    # Only displays two decimal places
     formatted_sale="${:.2f}".format(sales)
     
     profit=subcategory_sales_profit["Profit"][i]
@@ -155,7 +155,11 @@ for i in range(len(options)):
     col1, col2, col3 = st.columns(3)
     col1.metric("Total Sales", formatted_sale)
     col2.metric("Profit", formatted_profit)
-    col3.metric("Overall Profit Margin", formatted_margin,formatted_delta)
+    col3.metric("Overall Profit Margin", overall_profit_margin,delta)
+
+    col1.metric("Total Sales", sales)
+    col2.metric("Profit", profit)
+    col3.metric("Overall Profit Margin", overall_profit_margin, delta)
 
 
 
